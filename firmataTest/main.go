@@ -5,12 +5,12 @@ import (
 
 	"gobot.io/x/gobot"
 	"gobot.io/x/gobot/drivers/gpio"
-	"gobot.io/x/gobot/platforms/raspi"
+	"gobot.io/x/gobot/platforms/firmata"
 )
 
 func main() {
-	r := raspi.NewAdaptor()
-	led := gpio.NewLedDriver(r, "7")
+	firmataAdaptor := firmata.NewTCPAdaptor("192.168.0.106:3030")
+	led := gpio.NewLedDriver(firmataAdaptor, "13")
 
 	work := func() {
 		gobot.Every(1*time.Second, func() {
@@ -18,8 +18,8 @@ func main() {
 		})
 	}
 
-	robot := gobot.NewRobot("blinkBot",
-		[]gobot.Connection{r},
+	robot := gobot.NewRobot("bot",
+		[]gobot.Connection{firmataAdaptor},
 		[]gobot.Device{led},
 		work,
 	)
