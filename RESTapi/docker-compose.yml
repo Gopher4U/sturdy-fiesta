@@ -1,0 +1,15 @@
+version: "2"
+
+services:
+  activemq:
+    image: rmohr/activemq:5.14.3-alpine
+    ports:
+    - 61616:61616 # JMS
+    - 8161:8161   # UI
+    - 5672        # AMQP  (since `rmohr/activemq:5.12.1`)
+    - 61613:61613 # STOMP (since `rmohr/activemq:5.12.1`)
+    - 6883:1883   # MQTT  (since `rmohr/activemq:5.12.1`)
+    - 61614:61614 # WS    (since `rmohr/activemq:5.12.1`)
+#    volumes:
+#    - ./activemq/config:/opt/activemq/conf
+#    - /var/activemq/data
