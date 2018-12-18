@@ -2,12 +2,17 @@ package mqtt
 
 import (
 	"fmt"
+	"github.com/Gopher4U/sturdy-fiesta/RESTapi/config"
 	"log"
 	"net/url"
 	"time"
 
 	"github.com/eclipse/paho.mqtt.golang"
 )
+
+func BuildUri(conf *config.Config) string {
+	return fmt.Sprintf("mqtts://%s:%s@%s:%s/", conf.Mqtt.User, conf.Mqtt.Pass, conf.Mqtt.Host, conf.Mqtt.Port)
+}
 
 func Connect(clientId string, uri *url.URL) mqtt.Client {
 	opts := createClientOptions(clientId, uri)

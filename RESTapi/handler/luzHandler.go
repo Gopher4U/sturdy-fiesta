@@ -1,21 +1,19 @@
 package handler
 
 import (
+	"github.com/Gopher4U/sturdy-fiesta/RESTapi/mqtt"
+	"github.com/labstack/echo"
 	"log"
 	"net/http"
 	"net/url"
-	"os"
-
-	"github.com/Gopher4U/sturdy-fiesta/RESTapi/mqtt"
-	"github.com/labstack/echo"
 )
 
 func Health(c echo.Context) error {
 	return c.JSON(http.StatusCreated, "OK")
 }
 
-func LigarLed(c echo.Context) error {
-	uri, err := url.Parse(os.Getenv("MQTT_URI"))
+func (conf *ConfigHandler) LigarLed(c echo.Context) error {
+	uri, err := url.Parse(mqtt.BuildUri(conf.Config))
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -29,8 +27,8 @@ func LigarLed(c echo.Context) error {
 	return c.JSON(http.StatusCreated, "OK")
 }
 
-func DesligarLed(c echo.Context) error {
-	uri, err := url.Parse(os.Getenv("MQTT_URI"))
+func (conf *ConfigHandler) DesligarLed(c echo.Context) error {
+	uri, err := url.Parse(mqtt.BuildUri(conf.Config))
 	if err != nil {
 		log.Fatal(err)
 	}

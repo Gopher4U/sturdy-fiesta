@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/Gopher4U/sturdy-fiesta/RESTapi/config"
 	"github.com/Gopher4U/sturdy-fiesta/RESTapi/router"
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
@@ -8,6 +9,8 @@ import (
 
 func main() {
 
+	c := config.CreateConfig()
+	e := echo.New()
 	//uri, err := url.Parse(os.Getenv("MQTT_URI"))
 	//if err != nil {
 	//	log.Fatal(err)
@@ -16,13 +19,11 @@ func main() {
 	//if topic == "" {
 	//	topic = "led"
 	//}
-	//
 	//go mqtt.Listen(uri, topic)
-
-	e := echo.New()
 
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
-	router.Routes(e)
-	e.Logger.Fatal(e.Start(":3000"))
+	router.Routes(e, c)
+
+	e.Logger.Fatal(e.Start(":"+c.HttpServer.Port))
 }
